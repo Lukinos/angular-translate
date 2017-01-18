@@ -285,7 +285,7 @@ describe('pascalprecht.translate', function () {
       expect(value).toEqual(translationId);
     });
 
-    it('should return translation if translation id if exists', function () {
+    it('should return translation if translation id if exists and its translation is not an empty string', function () {
       var deferred = $q.defer(),
           promise = deferred.promise,
           value;
@@ -296,17 +296,17 @@ describe('pascalprecht.translate', function () {
 
       $q.all([
         $translate("EXISTING_TRANSLATION_ID"),
-        $translate("BLANK_VALUE")
+        $translate("EXISTING_TRANSLATION_ID")
       ]).then(function (translations) {
         deferred.resolve(translations);
       });
 
       $rootScope.$digest();
       expect(value[0]).toEqual('foo');
-      expect(value[1]).toEqual('');
+      expect(value[1]).toEqual('foo');
     });
 
-    it('should return translation if translation id exists and return a default value if not existing', function () {
+    it('should return translation if translation id exists and is not an empty string, otherwise return a default value', function () {
       var deferred = $q.defer(),
         promise = deferred.promise,
         value;
@@ -327,7 +327,7 @@ describe('pascalprecht.translate', function () {
     });
 
 
-    it('should return translations of multiple translation ids if exists', function () {
+    it('should return translations of multiple translation ids if exists and is not an empty string', function () {
       var deferred = $q.defer(),
           promise = deferred.promise,
           value;
@@ -342,10 +342,10 @@ describe('pascalprecht.translate', function () {
 
       $rootScope.$digest();
       expect(value.EXISTING_TRANSLATION_ID).toEqual('foo');
-      expect(value.BLANK_VALUE).toEqual('');
+      expect(value.BLANK_VALUE).toEqual('BLANK_VALUE');
     });
 
-    it('should return translation, if translation id exists with whitespace', function () {
+    it('should return translation, if translation id exists with whitespace and its translation is not an empty string', function () {
       var deferred = $q.defer(),
           promise = deferred.promise,
           value;
@@ -356,9 +356,7 @@ describe('pascalprecht.translate', function () {
 
       $q.all([
         $translate("EXISTING_TRANSLATION_ID\t        \n"),
-        $translate("\t        \nEXISTING_TRANSLATION_ID"),
-        $translate("BLANK_VALUE\t        \n"),
-        $translate("\t        \nBLANK_VALUE")
+        $translate("\t        \nEXISTING_TRANSLATION_ID")
       ]).then(function (translations) {
         deferred.resolve(translations);
       });
@@ -366,8 +364,6 @@ describe('pascalprecht.translate', function () {
       $rootScope.$digest();
       expect(value[0]).toEqual('foo');
       expect(value[1]).toEqual('foo');
-      expect(value[2]).toEqual('');
-      expect(value[3]).toEqual('');
     });
 
     it('should use $interpolate service', function () {
@@ -2316,15 +2312,15 @@ describe('pascalprecht.translate', function () {
       expect($translate.instant('FOO2')).toEqual('FOO2');
     });
 
-    it('should return empty string if translated string is empty', function () {
-      expect($translate.instant('BLANK_VALUE')).toEqual('');
+    it('should return the key string if translated string is empty', function () {
+      expect($translate.instant('BLANK_VALUE')).toEqual('BLANK_VALUE');
     });
 
     it('should return translations of multiple translation ids', function () {
       var result = $translate.instant(['FOO', 'FOO2', 'BLANK_VALUE']);
       expect(result.FOO).toEqual('bar');
       expect(result.FOO2).toEqual('FOO2');
-      expect(result.BLANK_VALUE).toEqual('');
+      expect(result.BLANK_VALUE).toEqual('BLANK_VALUE');
     });
 
     it('should use forceLanguage', function() {
