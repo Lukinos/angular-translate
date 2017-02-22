@@ -68,14 +68,14 @@ describe('pascalprecht.translate', function () {
       expect(element.text()).toBe('Not translated 123');
     });
 
-    it('should return translation if translation id exist', function () {
+    it('should return translation if translation id exist and is not an empty string', function () {
       element = $compile('<div translate="TRANSLATION_ID"></div>')($rootScope);
       $rootScope.$digest();
       expect(element.text()).toBe('foo');
 
       element = $compile('<div translate="BLANK_VALUE"></div>')($rootScope);
       $rootScope.$digest();
-      expect(element.text()).toBe('');
+      expect(element.text()).toBe('BLANK_VALUE');
     });
 
     it('should return translation id if translation doesn\'t exist and if its passed as interpolation', function () {
@@ -106,24 +106,24 @@ describe('pascalprecht.translate', function () {
         expect(element.text()).toBe('TEXT');
       });
 
-      it('should return translation if translation id exist', function () {
+      it('should return translation if translation id exist and is not an empty string', function () {
         element = $compile('<div translate>TRANSLATION_ID</div>')($rootScope);
         $rootScope.$digest();
         expect(element.text()).toBe('foo');
 
         element = $compile('<div translate>BLANK_VALUE</div>')($rootScope);
         $rootScope.$digest();
-        expect(element.text()).toBe('');
+        expect(element.text()).toBe('BLANK_VALUE');
       });
 
-      it('should return translation if translation id exist (innerHTML with newlines)', function () {
+      it('should return translation if translation id exist (innerHTML with newlines) and is not an empty string', function () {
         element = $compile("<div translate>\nTRANSLATION_ID\n</div>")($rootScope);
         $rootScope.$digest();
         expect(element.text()).toBe('foo');
 
         element = $compile("<div translate>\nBLANK_VALUE\n</div>")($rootScope);
         $rootScope.$digest();
-        expect(element.text()).toBe('');
+        expect(element.text()).toBe('BLANK_VALUE');
       });
 
       it('should return translation id if translation doesn\'t exist and is passed as interpolation', function () {
@@ -189,14 +189,14 @@ describe('pascalprecht.translate', function () {
         expect(element.text()).toBe('foo');
       });
 
-      it('should return translation when used as an element', function () {
+      it('should return translation when used as an element and is not an empty string', function () {
         element = $compile('<translate>TRANSLATION_ID</translate>')($rootScope);
         $rootScope.$digest();
         expect(element.text()).toBe('foo');
 
         element = $compile('<translate>BLANK_VALUE</translate>')($rootScope);
         $rootScope.$digest();
-        expect(element.text()).toBe('');
+        expect(element.text()).toBe('BLANK_VALUE');
       });
 
       describe('when id starts with a dot and translate namespace given', function () {
